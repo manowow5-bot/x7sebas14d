@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>x7 Sebas Panel - Store</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>x7 Sebas Panel</h1>
+                <div class="header-right">
+                    <span id="userEmail" class="user-email"></span>
+                    <span id="userBalance" class="user-balance" style="display: none;">💰 $0.00</span>
+                    <button id="tutorialBtn" class="btn-admin" title="Ver tutoriales">Tutoriales</button>
+                    <button id="keysBtn" class="btn-admin" style="display: none;" title="Ver mis keys">Mis Keys</button>
+                    <button id="canjearBtn" class="btn-redeem" style="display: none;" title="Canjear códigos">Canjear</button>
+                    <button id="canjesBtn" class="btn-admin" style="display: none;" title="Crear códigos de canje">Códigos</button>
+                    <button id="adminBtn" class="btn-admin" style="display: none;">Admin</button>
+                    <button id="logoutBtn" class="btn-logout" style="display: none;">Cerrar sesión</button>
+                    <button id="loginBtn" class="btn-login">Iniciar sesión</button>
+                </div>
+            </div>
+            <p class="subtitle">Tienda Oficial</p>
+        </div>
+    </header>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Iniciar Sesión</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña:</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Inicia sesión</button>
+                </form>
+                <p class="modal-footer">¿No tienes cuenta? <a href="#" id="goToRegister">Regístrate</a></p>
+                <div id="loginMessage" class="message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Mis Keys -->
+    <div id="keysModal" class="modal hidden">
+        <div class="modal-content admin-modal">
+            <div class="modal-header">
+                <h2>Mis Keys Compradas</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="purchasedKeysList" class="purchased-keys-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Registrarse</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña:</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirmar contraseña:</label>
+                        <input type="password" id="registerConfirm" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Registrarse</button>
+                </form>
+                <p class="modal-footer">¿Ya tienes cuenta? <a href="#" id="goToLogin">Inicia sesión</a></p>
+                <div id="registerMessage" class="message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Canjear Códigos -->
+    <div id="canjearModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Canjear Código</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="balance-section">
+                    <div class="balance-box">
+                        <p class="balance-label">Saldo Disponible:</p>
+                        <p class="balance-amount" id="balanceDisplay">$0.00</p>
+                    </div>
+                </div>
+                <form id="canjearForm">
+                    <div class="form-group">
+                        <label>Ingresa el código de canje:</label>
+                        <input type="text" id="codigoInput" placeholder="Ej: ABC12XYZ" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Canjear Código</button>
+                </form>
+                <div id="canjearMessage" class="message"></div>
+                <div id="historialCanje" class="historial-section"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Códigos de Canje -->
+    <div id="canjesModal" class="modal hidden">
+        <div class="modal-content admin-modal">
+            <div class="modal-header">
+                <h2>Crear Códigos de Canje</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="canjesForm">
+                    <div class="form-group">
+                        <label>Monto por código ($):</label>
+                        <input type="number" id="canjesMonto" min="1" max="10000" value="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad de códigos:</label>
+                        <input type="number" id="canjesCantidad" min="1" max="100" value="5" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Generar Códigos</button>
+                </form>
+                <div id="canjesMessage" class="message"></div>
+                <div id="canjesList" class="canjes-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Admin -->
+    <div id="adminModal" class="modal hidden">
+        <div class="modal-content admin-modal">
+            <div class="modal-header">
+                <h2>Panel de Administrador</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminForm">
+                    <div class="form-group">
+                        <label>Seleccionar Plan:</label>
+                        <select id="adminPlan">
+                            <option value="">-- Elige un plan --</option>
+                            <option value="1-dia">1 Dia - $0.5 USD</option>
+                            <option value="7-dias">7 Dias - $8 USD</option>
+                            <option value="15-dias">15 Dias - $14 USD</option>
+                            <option value="30-dias">30 Dias - $20 USD</option>
+                            <option value="permanente">Permanente - $35 USD</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Keys (una por línea):</label>
+                        <textarea id="adminKeys" placeholder="KEY1&#10;KEY2&#10;KEY3" rows="6"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Agregar Keys</button>
+                </form>
+                <div id="adminMessage" class="message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <main class="container">
+        <div id="stockInfo" class="stock-info"></div>
+        <div class="products-grid" id="productsGrid">
+            <!-- Tarjetas se generarán con JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 x7 Sebas Panel - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
